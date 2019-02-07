@@ -1,47 +1,6 @@
 $( document ).ready(function() {
-  var search_data = $('#search').val();
-
-  $.ajax({
-    type: 'POST',
-    url: "app.demandrack.com/search",
-    dataType: 'json',
-    data: search_data,
-    success: function(data) {
-      console.log(data);
-      $('.warehouses-list .item').remove();
-      $.each(data, function() {
-        $('.warehouses-list').append(''+
-        '<div class="item w-dyn-item">'+
-          '<a href="/warehouses/'+this.warehouse_slug+'" class="link-block-8 w-inline-block">'+
-            '<div class="warehouse-row w-row">'+
-              '<div class="w-col w-col-4">'+
-                '<div class="longitude">'+this.warehouse_long+'</div>'+
-                '<div class="latitude">'+this.warehouse_lat+'</div>'+
-                '<div class="warehouse-location">'+this.warehouse_address+'</div>'+
-              '</div>'+
-              '<div class="w-col w-col-3">'+
-                '<div class="warehouse-city">'+this.warehouse_city+'</div>'+
-              '</div>'+
-              '<div class="w-col w-col-3">'+
-                '<div class="div-block-53">'+
-                  '<div class="text-block-282 symbol">$</div>'+
-                  '<div class="warehouse-price">'+this.warehouse_price+'</div>'+
-                  '<div class="text-block-282 side">/ day</div>'+
-                '</div>'+
-              '</div>'+
-              '<div class="column-18 w-col w-col-2">'+
-                '<div class="warehouse-size">'+this.warehouse_size+'</div>'+
-                '<div class="text-block-281">sq feet</div>'+
-              '</div>'+
-            '</div>'+
-          '</a>'+
-        '</div>');
-      });
-    },
-    error: function(data) {
-      console.log(data);
-    },
-  });
+  fill_warehouses_table();
+  $('#prev').hide();
 
   var markers = [];
   var mymap = L.map('warehouses-map').setView([37.7880, -122.4075], 10);
@@ -91,3 +50,56 @@ $( document ).ready(function() {
 });
 
 window.location = window.location.href+'#warehouses-map';
+var page = 1;
+var total_pages = 1;
+
+function fill_warehouses_table() {
+  $.ajax({
+    type: 'POST',
+    url: "app.demandrack.com/search",
+    dataType: 'json',
+    data: {'query': $('#search').val() },
+    success: function(data) {
+      console.log(data);
+      total_pages = data.total_pages;
+      $('.warehouses-list .item').remove();
+      $.each(data.items, function() {
+        $('.warehouses-list').append(''+
+        '<div class="item w-dyn-item">'+
+          '<a href="/warehouses/'+this.warehouse_slug+'" class="link-block-8 w-inline-block">'+
+            '<div class="warehouse-row w-row">'+
+              '<div class="w-col w-col-4">'+
+                '<div class="longitude">'+this.warehouse_long+'</div>'+
+                '<div class="latitude">'+this.warehouse_lat+'</div>'+
+                '<div class="warehouse-location">'+this.warehouse_address+'</div>'+
+              '</div>'+
+              '<div class="w-col w-col-3">'+
+                '<div class="warehouse-city">'+this.warehouse_city+'</div>'+
+              '</div>'+
+              '<div class="w-col w-col-3">'+
+                '<div class="div-block-53">'+
+                  '<div class="text-block-282 symbol">$</div>'+
+                  '<div class="warehouse-price">'+this.warehouse_price+'</div>'+
+                  '<div class="text-block-282 side">/ day</div>'+
+                '</div>'+
+              '</div>'+
+              '<div class="column-18 w-col w-col-2">'+
+                '<div class="warehouse-size">'+this.warehouse_size+'</div>'+
+                '<div class="text-block-281">sq feet</div>'+
+              '</div>'+
+            '</div>'+
+          '</a>'+
+        '</div>');
+      });
+      if (page == 1) {
+        $('#prev').hide();
+      }
+      if (total_pages == data) {
+        $('#prev').hide();
+      }
+    },
+    error: function(data) {
+      console.log(data);
+    },
+  });
+}
