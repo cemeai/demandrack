@@ -1,4 +1,4 @@
-name,slug,featured,image,space_available,unit_price,square_feet,owner,title,company,phone,email,address,state,city,zip_code,features,services,pallet_capacity,unit,labor_hours,approved,latitud-2,longitude-2
+name,slug,featured,image,space_available,unit_price,measurement,owner,title,company,phone,email,address,state,city,zip_code,features,services,pallet_capacity,unit,labor_hours,approved,latitud-2,longitude-2
 100 Broadway Ste 309,100-broadway-ste-309,,,,0,20,,,"Treeline Logistics, Inc.",1-415-678-5588,,100 Broadway Ste 309,CA,San Francisco,94111-1430,,,0,,10,true,37.7988624,-122.4000739
 100 Cutting Blvd,100-cutting-blvd,,,,0,20,,,International-Matex Tank Terminals,1-510-412-5700,,100 Cutting Blvd,CA,Richmind,94804-2126,,,0,,10,true,37.9250416,-122.3696192
 1000 Detroit Ave Ste F,1000-detroit-ave-ste-f,,,,0,20,,,Hester Warehouse,1-925-687-5365,,1000 Detroit Ave Ste F,CA,Concord,94518-2439,,,0,,10,true,37.9531305,-122.0270956
