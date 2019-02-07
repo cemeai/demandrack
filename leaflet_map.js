@@ -20,13 +20,17 @@ $( document ).ready(function() {
   $('.warehouses-list .item').each( function() {
     // console.log($(this).find('.latitude').html(), $(this).find('.longitude').html());
     marker = L.marker([$(this).find('.latitude').html(), $(this).find('.longitude').html()]).addTo(mymap);
-    marker.bindPopup("<b>"+$(this).find('.warehouse-location').html()+"</b><br>"+
-                      $(this).find('.warehouse-city').html());
+    marker.bindPopup("<div width='200px'>"+
+    	"<img src='https://maps.googleapis.com/maps/api/streetview?size=200x100&location="+
+      	$(this).find('.latitude').html()+','+
+        $(this).find('.longitude').html()+
+      	"&fov=110&key=AIzaSyB79RE1ATsM0e9C5HMd7VMtlPBqgydY0-U' height='100' width='200'><br>"+
+    	$(this).find('.warehouse-city').html()+
+    	"<br><a href='"+$(this).find('a').attr('href')+"'>"+
+      "<b >"+$(this).find('.warehouse-location').html()+"</b></a></div>",
+      {minWidth: 200 });
     marker.on('mouseover', function (e) {
       this.openPopup();
-    });
-    marker.on('mouseout', function (e) {
-      this.closePopup();
     });
     markers.push(marker);
   });
