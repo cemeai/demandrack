@@ -56,7 +56,7 @@ var total_pages = 1;
 function fill_warehouses_table() {
   $.ajax({
     type: 'POST',
-    url: "app.demandrack.com/search",
+    url: "https://app.demandrack.com/search",
     dataType: 'json',
     data: {'query': $('#search').val() },
     success: function(data) {
@@ -94,7 +94,7 @@ function fill_warehouses_table() {
       if (page == 1) {
         $('#prev').hide();
       }
-      if (total_pages == data) {
+      if (total_pages == data.total) {
         $('#prev').hide();
       }
     },
