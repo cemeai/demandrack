@@ -71,15 +71,16 @@ app.post('/search', function (req, res) {
 	});
 })
 
-app.post('/query', function (req, res) {
-	param = req.body.loct.toLowerCase();
-	fs.readFile(dw, 'UTF-8', function (err, csv) {
-	  if (err) { console.log(err); }
-	  let results = $.csv.toObjects(csv);
-	  let data = results.filter(result => result.city.toLowerCase() == param);
-	  return data;
-	});
-})
+app.get('/query', function(req, res) {
+  param = req.query.loct.toLowerCase();
+  fs.readFile(dw, 'UTF-8', function (err, csv) {
+    if (err) { console.log(err); }
+    let results = $.csv.toObjects(csv);
+    let data = results.filter(result => result.city.toLowerCase() == param);
+    res.send(data);
+  });
+});
+
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
