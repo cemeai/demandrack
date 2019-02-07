@@ -2,6 +2,10 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
 const Webflow = require('webflow-api');
+var fs = require('fs');
+var $ = jQuery = require('./node_modules/jquery/dist/jquery.min.js');
+//var $ = jQuery = require('jQuery');
+require('./node_modules/jquery-csv/src/jquery.csv.js');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,6 +17,7 @@ var page_count = 1;
 var total_pages = 0;
 var offset = 0;
 var count = 0;
+var dw = './csv/demandrack_warehouses.csv';
 
 app.get('/', function (req, res) {
   let getCollections = function() {
@@ -51,6 +56,29 @@ app.post('/', function (req, res) {
      data = result['items']
      res.render('index', {page_count, total_pages, count, data})
   })
+})
+
+app.post('/search', function (req, res) {
+	param = req.body.loct.toLowerCase();
+	fs.readFile(dw, 'UTF-8', function (err, csv) {
+	  if (err) { console.log(err); }
+	  let results = $.csv.toObjects(csv);
+	  let data = results.filter(result => result.city.toLowerCase() == param);
+	  page_count = 1;
+	  total_pages = 1;
+	  count = Object.keys(data).length;
+	  res.render('index', {page_count, total_pages, count, data});
+	});
+})
+
+app.post('/query', function (req, res) {
+	param = req.body.loct.toLowerCase();
+	fs.readFile(dw, 'UTF-8', function (err, csv) {
+	  if (err) { console.log(err); }
+	  let results = $.csv.toObjects(csv);
+	  let data = results.filter(result => result.city.toLowerCase() == param);
+	  return data;
+	});
 })
 
 app.listen(3000, function () {
