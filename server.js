@@ -9,6 +9,11 @@ require('./node_modules/jquery-csv/src/jquery.csv.js');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.set('view engine', 'ejs')
 
 // Initialize the API
@@ -72,6 +77,16 @@ app.post('/search', function (req, res) {
 })
 
 app.get('/query', function(req, res) {
+  param = req.query.loct.toLowerCase();
+  fs.readFile(dw, 'UTF-8', function (err, csv) {
+    if (err) { console.log(err); }
+    let results = $.csv.toObjects(csv);
+    let data = results.filter(result => result.city.toLowerCase() == param);
+    res.send(data);
+  });
+});
+
+app.post('/query', function(req, res) {
   param = req.query.loct.toLowerCase();
   fs.readFile(dw, 'UTF-8', function (err, csv) {
     if (err) { console.log(err); }
