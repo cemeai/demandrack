@@ -39,6 +39,7 @@ app.get('/', function (req, res) {
      count = result['count']
      data = result['items'] 
      offset = 0
+     sear = 0
      res.render('index', {page_count, total_pages, count, data, sear, offset})
   })
 })
