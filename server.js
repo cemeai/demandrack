@@ -63,6 +63,7 @@ app.post('/', function (req, res) {
      count = result['count']
      data = result['items']
      offset = 0
+     sear = 0
      res.render('index', {page_count, total_pages, count, data, sear, offset})
   })
 })
@@ -121,11 +122,6 @@ app.post('/query', function(req, res) {
     res.send(data);
   });
 });
-
-app.get('/spag', function(req, res) {
-  
-});
-
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
