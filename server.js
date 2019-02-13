@@ -104,9 +104,11 @@ app.post('/search', function (req, res) {
   });
 })
 
+<<<<<<< HEAD
 app.get('/query', function(req, res) {
   search = req.query.loct.toLowerCase();
   offset = parseInt(req.query.offset);
+>>>>>>> 2a479258babf8be2c84e84803ea062a471389390
   fs.readFile(dw, 'UTF-8', function (err, csv) {
     if (err) { console.log(err); }
     let results = $.csv.toObjects(csv);
@@ -123,13 +125,17 @@ app.get('/query', function(req, res) {
   });
 });
 
+// Modify by Cesar
 app.post('/query', function(req, res) {
+<<<<<<< HEAD
   search = req.body.loct.toLowerCase();
   offset = parseInt(req.body.offset);
+>>>>>>> 2a479258babf8be2c84e84803ea062a471389390
   fs.readFile(dw, 'UTF-8', function (err, csv) {
     if (err) { console.log(err); }
     let results = $.csv.toObjects(csv);
     let items = results.filter(result => result.city.toLowerCase() == search);
+<<<<<<< HEAD
     total = Object.keys(items).length;
     let data = {
       'items': items.slice(offset, offset+10),
@@ -139,6 +145,7 @@ app.post('/query', function(req, res) {
       'offset': offset,
     }
     res.json(data);
+>>>>>>> 2a479258babf8be2c84e84803ea062a471389390
   });
 });
 
