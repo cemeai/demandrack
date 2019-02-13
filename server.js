@@ -104,7 +104,7 @@ app.post('/search', function (req, res) {
   });
 })
 
-app.get('/query', function(req, res) {
+/*app.get('/query', function(req, res) {
   param = req.query.loct.toLowerCase();
   fs.readFile(dw, 'UTF-8', function (err, csv) {
     if (err) { console.log(err); }
@@ -112,7 +112,7 @@ app.get('/query', function(req, res) {
     let data = results.filter(result => result.city.toLowerCase() == param);
     res.send(data);
   });
-});
+});*/
 
 // Modify by Cesar
 app.post('/query', function(req, res) {
