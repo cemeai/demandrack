@@ -114,12 +114,20 @@ app.get('/query', function(req, res) {
   });
 });
 
+// Modify by Cesar
 app.post('/query', function(req, res) {
-  param = req.query.loct.toLowerCase();
+  search = req.query.loct.toLowerCase();
+  offset = req.query.offset;
   fs.readFile(dw, 'UTF-8', function (err, csv) {
     if (err) { console.log(err); }
     let results = $.csv.toObjects(csv);
-    let data = results.filter(result => result.city.toLowerCase() == param);
+    let items = results.filter(result => result.city.toLowerCase() == search);
+    let data = {
+      'total_pages': total_pages,
+      'page': (offset/10)+1,
+      'offset': offset,
+      'items': items.slice(offset, offset+10),
+    };
     res.send(data);
   });
 });
