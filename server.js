@@ -114,6 +114,7 @@ app.get('/query', function(req, res) {
     let items = results.data;
     total = Object.keys(items).length;
     let data = {
+      'search': search,
       'items': items.slice(offset, offset+10),
       'total_items': total,
       'current_page': (offset/10)+1,
