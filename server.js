@@ -110,11 +110,9 @@ app.get('/query', function(req, res) {
   fs.readFile(dw, 'UTF-8', function (err, csv) {
     if (err) { console.log(err); }
     let results = $.csv.toObjects(csv);
-    // let items = (search == '')? results: results.filter(result => result.city.toLowerCase() == search);
-    let items = results.data;
+    let items = (search == '')? results: results.filter(result => result.city.toLowerCase() == search);
     total = Object.keys(items).length;
     let data = {
-      'search': search,
       'items': items.slice(offset, offset+10),
       'total_items': total,
       'current_page': (offset/10)+1,
@@ -131,11 +129,9 @@ app.post('/query', function(req, res) {
   fs.readFile(dw, 'UTF-8', function (err, csv) {
     if (err) { console.log(err); }
     let results = $.csv.toObjects(csv);
-    // let items = (search =7= '')? results: results.filter(result => result.city.toLowerCase() == search);
-    let items = results.data;
+    let items = (search =7= '')? results: results.filter(result => result.city.toLowerCase() == search);
     total = Object.keys(items).length;
     let data = {
-      'search': search,
       'items': items.slice(offset, offset+10),
       'total_items': total,
       'current_page': (offset/10)+1,
