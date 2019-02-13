@@ -38,9 +38,9 @@ app.get('/', function (req, res) {
      total_pages = Math.ceil(result['total']/10)
      count = result['count']
      data = result['items'] 
-     offset = 0
+     offs = 0
      sear = 0
-     res.render('index', {page_count, total_pages, count, data, sear, offset})
+     res.render('index', {page_count, total_pages, count, data, sear, offs})
   })
 })
 
@@ -62,9 +62,9 @@ app.post('/', function (req, res) {
      total_pages = Math.ceil(result['total']/10)
      count = result['count']
      data = result['items']
-     offset = 0
+     offs = 0
      sear = 0
-     res.render('index', {page_count, total_pages, count, data, sear, offset})
+     res.render('index', {page_count, total_pages, count, data, sear, offs})
   })
 })
 
@@ -72,17 +72,18 @@ app.post('/search', function (req, res) {
   if (req.body.req_type == 'snxt') {
     page_count += 1;
     count += 10;
-    offset += 10;
+    offs += 10;
     param = req.app.get('search_string');
   } else if (req.body.req_type == 'sprv') {
     page_count -= 1;
-    offset -= 10;
+    offs -= 10;
     count -= 10;
     param = req.app.get('search_string');
   } else {
     param = req.body.loct.toLowerCase();
     page_count = 1;
     count = 10;
+    offs = 0
     app.set('search_string', param);
   }
   fs.readFile(dw, 'UTF-8', function (err, csv) {
@@ -99,7 +100,7 @@ app.post('/search', function (req, res) {
       count -= Object.keys(data).length%10;
       count += 10;
     }
-    res.render('index', {page_count, total_pages, count, data, sear, offset});
+    res.render('index', {page_count, total_pages, count, data, sear, offs});
   });
 })
 
