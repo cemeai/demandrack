@@ -129,7 +129,7 @@ app.post('/query', function(req, res) {
   fs.readFile(dw, 'UTF-8', function (err, csv) {
     if (err) { console.log(err); }
     let results = $.csv.toObjects(csv);
-    let items = results.filter(result => result.city.toLowerCase() == search);
+    let items = (search == '')? results: results.filter(result => result.city.toLowerCase() == search);
     total = Object.keys(items).length;
     let data = {
       'items': items.slice(offset, offset+10),
