@@ -79,7 +79,7 @@
         </div>
         <div class="collection-list-wrapper-2 w-dyn-list">
           
-          <% for (i = 0; i < count; i++) { %>
+          <% for (i = offs; i < count; i++) { %>
               <div class="warehouses-list w-dyn-items">
                 <div class="item w-dyn-item">
                   <a href="#" class="link-block-8 w-inline-block">
@@ -111,19 +111,36 @@
 
           <div class="w-pagination-wrapper pagination-2">
 
-            <% if(page_count > 1){ %>
-            <form method="post" action="/">
-              <input type="hidden" name="req_type" value="prv">  
-              <button type="submit" style="background: none;"><a id="prv" href="#" class="w-pagination-previous previous"><svg class="w-pagination-previous-icon" height="12px" width="12px" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 12 12" transform="translate(0, 1)"><path fill="none" stroke="currentColor" fill-rule="evenodd" d="M8 10L4 6l4-4"></path></svg><div class="w-inline-block">Previous</div></a></button>
-            </form>
-            <% } %>
+            <% if(sear == 0){ %>
+              <% if(page_count > 1){ %>
+              <form method="post" action="/">
+                <input type="hidden" name="req_type" value="prv">  
+                <button type="submit" style="background: none;"><a id="prv" href="#" class="w-pagination-previous previous"><svg class="w-pagination-previous-icon" height="12px" width="12px" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 12 12" transform="translate(0, 1)"><path fill="none" stroke="currentColor" fill-rule="evenodd" d="M8 10L4 6l4-4"></path></svg><div class="w-inline-block">Previous</div></a></button>
+              </form>
+              <% } %>
 
-            <% if(page_count < total_pages){ %>
-            <form method="post" action="/">
-              <input type="hidden" name="req_type" value="nxt">
-              <button type="submit" style="background: none;"><a id="nxt" href="#" class="w-pagination-next next">
-                <div class="w-inline-block">Next</div><svg class="w-pagination-next-icon" height="12px" width="12px" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 12 12" transform="translate(0, 1)"><path fill="none" stroke="currentColor" fill-rule="evenodd" d="M4 2l4 4-4 4"></path></svg></a></button>
-            </form>
+              <% if(page_count < total_pages){ %>
+              <form method="post" action="/">
+                <input type="hidden" name="req_type" value="nxt">
+                <button type="submit" style="background: none;"><a id="nxt" href="#" class="w-pagination-next next">
+                  <div class="w-inline-block">Next</div><svg class="w-pagination-next-icon" height="12px" width="12px" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 12 12" transform="translate(0, 1)"><path fill="none" stroke="currentColor" fill-rule="evenodd" d="M4 2l4 4-4 4"></path></svg></a></button>
+              </form>
+              <% } %>
+            <% } else {%>
+              <% if(page_count > 1){ %>
+              <form method="post" action="/search">
+                <input type="hidden" name="req_type" value="sprv">  
+                <button type="submit" style="background: none;"><a id="sprv" href="#" class="w-pagination-previous previous"><svg class="w-pagination-previous-icon" height="12px" width="12px" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 12 12" transform="translate(0, 1)"><path fill="none" stroke="currentColor" fill-rule="evenodd" d="M8 10L4 6l4-4"></path></svg><div class="w-inline-block">Previous</div></a></button>
+              </form>
+              <% } %>
+
+              <% if(page_count < total_pages){ %>
+              <form method="post" action="/search">
+                <input type="hidden" name="req_type" value="snxt">  
+                <button type="submit" style="background: none;"><a id="snxt" href="#" class="w-pagination-next next">
+                  <div class="w-inline-block">Next</div><svg class="w-pagination-next-icon" height="12px" width="12px" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 12 12" transform="translate(0, 1)"><path fill="none" stroke="currentColor" fill-rule="evenodd" d="M4 2l4 4-4 4"></path></svg></a></button>
+              </form>
+              <% } %>
             <% } %>
 
             <div id="page_num" class="w-pagination-page-count page-count"><%= page_count.toString() + '/' + total_pages.toString() %></div>

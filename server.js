@@ -9,6 +9,11 @@ require('./node_modules/jquery-csv/src/jquery.csv.js');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.set('view engine', 'ejs')
 
 // Initialize the API
@@ -17,6 +22,7 @@ var page_count = 1;
 var total_pages = 0;
 var offset = 0;
 var count = 0;
+var sear = 0;
 var dw = './csv/demandrack_warehouses.csv';
 
 app.get('/', function (req, res) {
@@ -32,7 +38,9 @@ app.get('/', function (req, res) {
      total_pages = Math.ceil(result['total']/10)
      count = result['count']
      data = result['items'] 
-     res.render('index', {page_count, total_pages, count, data})
+     offs = 0
+     sear = 0
+     res.render('index', {page_count, total_pages, count, data, sear, offs})
   })
 })
 
@@ -54,21 +62,46 @@ app.post('/', function (req, res) {
      total_pages = Math.ceil(result['total']/10)
      count = result['count']
      data = result['items']
-     res.render('index', {page_count, total_pages, count, data})
+     offs = 0
+     sear = 0
+     res.render('index', {page_count, total_pages, count, data, sear, offs})
   })
 })
 
 app.post('/search', function (req, res) {
-	param = req.body.loct.toLowerCase();
-	fs.readFile(dw, 'UTF-8', function (err, csv) {
-	  if (err) { console.log(err); }
-	  let results = $.csv.toObjects(csv);
-	  let data = results.filter(result => result.city.toLowerCase() == param);
-	  page_count = 1;
-	  total_pages = 1;
-	  count = Object.keys(data).length;
-	  res.render('index', {page_count, total_pages, count, data});
-	});
+  if (req.body.req_type == 'snxt') {
+    page_count += 1;
+    count += 10;
+    offs += 10;
+    param = req.app.get('search_string');
+  } else if (req.body.req_type == 'sprv') {
+    page_count -= 1;
+    offs -= 10;
+    count -= 10;
+    param = req.app.get('search_string');
+  } else {
+    param = req.body.loct.toLowerCase();
+    page_count = 1;
+    count = 10;
+    offs = 0
+    app.set('search_string', param);
+  }
+  fs.readFile(dw, 'UTF-8', function (err, csv) {
+    if (err) { console.log(err); }
+    let results = $.csv.toObjects(csv);
+    let data = results.filter(result => result.city.toLowerCase() == param);
+    total_pages = Math.ceil(Object.keys(data).length/10);
+    sear = 1;
+    console.log(count);
+    if (page_count == total_pages) {
+      count -= 10;
+      count += Object.keys(data).length%10;
+    } else if((count%10) != 0) {
+      count -= Object.keys(data).length%10;
+      count += 10;
+    }
+    res.render('index', {page_count, total_pages, count, data, sear, offs});
+  });
 })
 
 app.get('/query', function(req, res) {
@@ -81,6 +114,15 @@ app.get('/query', function(req, res) {
   });
 });
 
+app.post('/query', function(req, res) {
+  param = req.query.loct.toLowerCase();
+  fs.readFile(dw, 'UTF-8', function (err, csv) {
+    if (err) { console.log(err); }
+    let results = $.csv.toObjects(csv);
+    let data = results.filter(result => result.city.toLowerCase() == param);
+    res.send(data);
+  });
+});
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
