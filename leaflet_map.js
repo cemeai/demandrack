@@ -60,9 +60,9 @@ var total_pages = 1;
 function fill_warehouses_table() {
   $.ajax({
     type: 'POST',
-    url: "https://app.demandrack.com/search",
+    url: "https://app.demandrack.com/query?loct=oakland",
     dataType: 'json',
-    data: {'query': $('#search').val() },
+    //data: {'loct': $('#search').val() },
     success: function(data) {
       console.log(data);
       total_pages = data.total_pages;
@@ -70,10 +70,10 @@ function fill_warehouses_table() {
       $.each(data.items, function() {
         $('.warehouses-list').append(''+
         '<div class="item w-dyn-item">'+
-          '<a href="/warehouses/'+this.warehouse_slug+'" class="link-block-8 w-inline-block">'+
+          '<a href="/warehouses/'+this.slug+'" class="link-block-8 w-inline-block">'+
             '<div class="warehouse-row w-row">'+
               '<div class="w-col w-col-4">'+
-                '<div class="longitude">'+this.warehouse_long+'</div>'+
+                '<div class="longitude">'+this.logitude-2+'</div>'+
                 '<div class="latitude">'+this.warehouse_lat+'</div>'+
                 '<div class="warehouse-location">'+this.warehouse_address+'</div>'+
               '</div>'+
