@@ -105,22 +105,40 @@ app.post('/search', function (req, res) {
 })
 
 app.get('/query', function(req, res) {
-  param = req.query.loct.toLowerCase();
+  search = req.query.loct.toLowerCase();
+  offset = parseInt(req.query.offset);
   fs.readFile(dw, 'UTF-8', function (err, csv) {
     if (err) { console.log(err); }
     let results = $.csv.toObjects(csv);
-    let data = results.filter(result => result.city.toLowerCase() == param);
-    res.send(data);
+    let items = results.filter(result => result.city.toLowerCase() == search);
+    total = Object.keys(items).length;
+    let data = {
+      'items': items.slice(offset, offset+10),
+      'total_items': total,
+      'current_page': (offset/10)+1,
+      'total_pages': Math.ceil(total/10),
+      'offset': offset,
+    }
+    res.json(data);
   });
 });
 
 app.post('/query', function(req, res) {
-  param = req.query.loct.toLowerCase();
+  search = req.body.loct.toLowerCase();
+  offset = parseInt(req.body.offset);
   fs.readFile(dw, 'UTF-8', function (err, csv) {
     if (err) { console.log(err); }
     let results = $.csv.toObjects(csv);
-    let data = results.filter(result => result.city.toLowerCase() == param);
-    res.send(data);
+    let items = results.filter(result => result.city.toLowerCase() == search);
+    total = Object.keys(items).length;
+    let data = {
+      'items': items.slice(offset, offset+10),
+      'total_items': total,
+      'current_page': (offset/10)+1,
+      'total_pages': Math.ceil(total/10),
+      'offset': offset,
+    }
+    res.json(data);
   });
 });
 
