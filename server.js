@@ -16,6 +16,17 @@ app.use(function(req, res, next) {
 });
 app.set('view engine', 'ejs')
 
+// MySQL Connection
+var mysql = require('mysql')
+var con = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'carlos',
+  password : 'jonajo123',
+  database : 'demandrack'
+});
+
+con.connect()
+
 // Initialize the API
 const api = new Webflow({ token: '06b555feedd3c4eaa17899dc043b26309925af48eb448e2eb4f25fb2bbaf8611' });
 var page_count = 1;
