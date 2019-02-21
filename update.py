@@ -2,7 +2,7 @@ import requests
 import MySQLdb
 
 # MySQL Connection
-db = MySQLdb.connect(user="carlos",passwd="brisa",db="demandrack")
+db = MySQLdb.connect(user="carlos",passwd="jonajo123",db="demandrack")
 c=db.cursor()
 
 c.execute("""SELECT COUNT(name) FROM warehouses""")
