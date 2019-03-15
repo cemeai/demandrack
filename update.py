@@ -8,7 +8,7 @@ c=db.cursor()
 c.execute("""SELECT COUNT(name) FROM warehouses""")
 num = c.fetchone()
 # Initialize the API
-r = requests.get('https://api.webflow.com/collections/5b8d5ccbcbd055b63724f24d/items?api_version=1.0.0&access_token=06b555feedd3c4eaa17899dc043b26309925af48eb448e2eb4f25fb2bbaf8611')
+r = requests.get('https://api.webflow.com/collections/5c6c3ee7878c9f042ab0e2fe/items?api_version=1.0.0&access_token=06b555feedd3c4eaa17899dc043b26309925af48eb448e2eb4f25fb2bbaf8611')
 
 json_data = r.json()
 total = json_data['total']
